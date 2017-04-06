@@ -55,7 +55,7 @@ NSString *const BNRURLForCoursesJSON = @"https://bookapi.bignerdranch.com/course
     return self;
 }
 
-#pragma mark - KVO courses
+#pragma mark - KVC courses
 
 - (NSArray <ActiveCourse *> *)courses {
     return [_courses copy];
