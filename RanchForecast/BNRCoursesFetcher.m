@@ -225,7 +225,19 @@ NSString *const BNRURLForCoursesJSON = @"https://bookapi.bignerdranch.com/course
         case kSecTrustResultRecoverableTrustFailure:
         {
             // Iterate through trust certificate chain in look for
-            // a certificate which is in the system's anchors:
+            // a certificate which is in the system's anchors
+            // I am not sure this is the right way to do it, after
+            // all it will always recover the connection if the
+            // not valid certificate in the trust certificate chain
+            // was issued by a valid Certificate Authority.
+            // Plus it doesn't even make sense to iterate through the
+            // chain of certificates of the trust: the only valid anchors
+            // returned by SecTrustCopyAnchorCertificates() function are
+            // CA ones… Hence for this way of recovering from the
+            // challenge it would be sufficient to just check if the root
+            // certificate in the trust certificates chain is inside
+            // the ones returned by SecTrustCopyAnchorCertificates().
+            
             CFArrayRef systemCertsRef;
             SecTrustCopyAnchorCertificates(&systemCertsRef);
             NSArray *systemCerts = CFBridgingRelease(systemCertsRef);
